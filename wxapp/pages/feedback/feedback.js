@@ -1,5 +1,5 @@
-// 意见反馈页:使用者提意见,开发者在后台查看
-const BASE = 'http://127.0.0.1:8000';
+// 意见反馈页:使用者提意见,开发者在后台查看(接口走云托管「云调用」)
+const req = require('../../utils/cloud.js').req;
 
 Page({
   data: {
@@ -18,20 +18,16 @@ Page({
       return;
     }
     this.setData({ submitting: true });
-    wx.request({
-      url: BASE + '/api/feedback',
-      method: 'POST',
-      data: { content: content.trim(), contact: contact.trim() },
-      success: res => {
-        if (res.data && res.data.ok) {
+    req('/api/feedback', 'POST', { content: content.trim(), contact: contact.trim() })
+      .then(res => {
+        if (res && res.ok) {
           this.setData({ content: '', contact: '' });
           wx.showToast({ title: '感谢你的反馈!', icon: 'success' });
         } else {
           wx.showToast({ title: '提交失败,请稍后再试', icon: 'none' });
         }
-      },
-      fail: () => wx.showToast({ title: '网络异常,请稍后再试', icon: 'none' }),
-      complete: () => this.setData({ submitting: false })
-    });
+      })
+      .catch(() => wx.showToast({ title: '网络异常,请稍后再试', icon: 'none' }))
+      .finally(() => this.setData({ submitting: false }));
   }
 });

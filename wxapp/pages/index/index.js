@@ -1,18 +1,6 @@
-// 接口基址:开发阶段连本机;正式上线改成备案域名的 HTTPS 地址
-const BASE = 'http://127.0.0.1:8000';
-
-function req(path, method, data) {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      url: BASE + path,
-      method: method || 'GET',
-      data: data,
-      timeout: 60000,
-      success: res => resolve(res.data),
-      fail: err => reject(err)
-    });
-  });
-}
+// 接口走微信云托管「云调用」(永不过期,无需配置域名白名单)
+const cloud = require('../../utils/cloud.js');
+const req = cloud.req;
 
 Page({
   data: {
@@ -39,7 +27,7 @@ Page({
   onLoad() {
     req('/api/violations').then(list => {
       this.setData({ violations: list });
-    }).catch(() => wx.showToast({ title: '请先启动后端服务', icon: 'none' }));
+    }).catch(() => wx.showToast({ title: '网络异常,请稍后再试', icon: 'none' }));
     req('/api/apps').then(apps => {
       this.setData({ apps: ['手动输入...'].concat(apps) });
     }).catch(() => {});
@@ -75,11 +63,8 @@ Page({
       : Promise.resolve([]);
 
     const aiPromise = (useAI && shotPath)
-      ? wx.uploadFile({
-          url: BASE + '/api/analyze',
-          filePath: shotPath,
-          name: 'file'
-        }).then(res => JSON.parse(res.data)).catch(() => ({ ok: false, error: '网络异常' }))
+      ? cloud.upload('/api/analyze', shotPath)
+          .catch(() => ({ ok: false, error: '网络异常' }))
       : Promise.resolve(null);
 
     Promise.all([textPromise, aiPromise]).then(([inferList, vision]) => {
@@ -113,7 +98,7 @@ Page({
       }
     }).catch(() => {
       this.setData({ recognizing: false });
-      wx.showToast({ title: '后端未启动或网络异常', icon: 'none' });
+      wx.showToast({ title: '网络异常,请稍后再试', icon: 'none' });
     });
   },
 
@@ -151,7 +136,7 @@ Page({
         lastVName: d.candidates[d.chosenIdx].name
       });
       wx.showToast({ title: '文书已生成', icon: 'success' });
-    }).catch(() => wx.showToast({ title: '生成失败,检查后端', icon: 'none' }));
+    }).catch(() => wx.showToast({ title: '生成失败,请稍后再试', icon: 'none' }));
   },
 
   // 复制文书前先弹证据清单提醒,用户确认后再复制(④证据清单提醒)
