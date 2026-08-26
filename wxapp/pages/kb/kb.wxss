@@ -1,0 +1,18 @@
+/* 知识库页样式 */
+.v-name {
+  font-weight: 600;
+  font-size: 30rpx;
+  margin-bottom: 10rpx;
+}
+
+.v-symptom {
+  font-size: 26rpx;
+  color: #555;
+  margin-bottom: 10rpx;
+}
+
+.v-basis {
+  font-size: 24rpx;
+  color: #8a8f99;
+  margin-top: 6rpx;
+}

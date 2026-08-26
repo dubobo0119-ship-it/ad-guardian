@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 用户隐私数据(意见反馈含联系方式,绝不进仓库)
+data/
+
+# 密钥与本地配置
+.env
+*.key
+
+# 小程序工具缓存
+wxapp/node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/

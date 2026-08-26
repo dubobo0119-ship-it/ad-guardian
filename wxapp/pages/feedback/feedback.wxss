@@ -1,0 +1,24 @@
+/* 反馈页样式 */
+.fb-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 220rpx;
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+}
+
+.field-label {
+  margin-top: 24rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+
+.fb-contact {
+  background: #f5f6fa;
+  border-radius: 12rpx;
+  padding: 18rpx 20rpx;
+  margin-top: 10rpx;
+}

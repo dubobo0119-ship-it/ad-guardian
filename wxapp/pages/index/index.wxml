@@ -1,0 +1,70 @@
+<!-- 一键举报页 -->
+<view class="card">
+  <view class="sec-title">第 1 步:告诉我们发生了什么</view>
+  <textarea class="desc-input" placeholder="用一句话描述你遇到的广告,如:手机拿在手里走路,一打开就自己跳到淘宝去了" value="{{desc}}" bindinput="onDesc" maxlength="200"></textarea>
+  <button class="shot-btn" bindtap="chooseShot">{{shotPath ? '重新选择截图' : '+ 上传违规广告截图(可选)'}}</button>
+  <image wx:if="{{shotPath}}" src="{{shotPath}}" mode="widthFix" class="shot-preview"></image>
+  <view class="ai-row">
+    <text>AI 看图识别(免费模型)</text>
+    <switch checked="{{useAI}}" bindchange="onUseAI" color="#2f6fed"></switch>
+  </view>
+  <button class="btn-primary" bindtap="smartRecognize" loading="{{recognizing}}">🔍 智能识别</button>
+</view>
+
+<view class="card" wx:if="{{visionError}}">
+  <text class="warn">AI 识别未成功:{{visionError}}(已自动用文字识别)</text>
+</view>
+
+<view class="card" wx:if="{{vision}}">
+  <view class="sec-title">🤖 AI 看图分析</view>
+  <view>判断:<text class="strong">{{vision.category}}</text></view>
+  <view>关闭按钮:{{vision.close_button}} / 倒计时:{{vision.countdown}}</view>
+  <view wx:if="{{vision.deceptive_text}}">诱骗文案:「{{vision.deceptive_text}}」</view>
+  <view wx:if="{{vision.summary}}" class="ai-summary">{{vision.summary}}</view>
+</view>
+
+<view class="card" wx:if="{{candidates.length}}">
+  <view class="sec-title">第 2 步:确认违规类型</view>
+  <radio-group bindchange="onChooseType">
+    <label class="type-item" wx:for="{{candidates}}" wx:key="key">
+      <radio value="{{index}}" checked="{{chosenIdx === index}}" color="#2f6fed"></radio>
+      <text>{{item.name}}</text>
+    </label>
+  </radio-group>
+</view>
+
+<view class="card" wx:if="{{candidates.length}}">
+  <view class="sec-title">第 3 步:确认基本信息</view>
+  <view class="field-label">被举报 App</view>
+  <picker range="{{apps}}" value="{{appIdx}}" bindchange="onAppIdx">
+    <view class="picker-box">{{apps[appIdx]}}</view>
+  </picker>
+  <input wx:if="{{appIdx === 0}}" class="text-input" placeholder="输入 App 名称" value="{{appNameManual}}" bindinput="onAppManual"></input>
+  <view class="field-label">你的手机型号</view>
+  <input class="text-input" placeholder="如:小米 14" value="{{device}}" bindinput="onDevice"></input>
+  <view class="field-label">事发时间</view>
+  <input class="text-input" placeholder="如:2026-08-26 08:30" value="{{when}}" bindinput="onWhen"></input>
+  <view class="field-label">补充描述</view>
+  <textarea class="desc-input" value="{{detail}}" bindinput="onDetail" maxlength="500"></textarea>
+  <button class="btn-primary" bindtap="generateReport">生成举报文书</button>
+</view>
+
+<view class="card" wx:if="{{reportText}}">
+  <view class="sec-title">第 4 步:复制文书去举报</view>
+  <view class="report-box">{{reportText}}</view>
+  <button class="btn-primary" bindtap="copyReport">📋 一键复制文书</button>
+  <button class="btn-mark" bindtap="markSubmitted">✅ 我提交了,记一笔</button>
+  <view class="sec-title" style="margin-top:30rpx;">建议受理渠道</view>
+  <view class="channel" wx:for="{{channels}}" wx:key="name">
+    <view class="strong">{{item.name}}</view>
+    <view class="muted">{{item.scope}}</view>
+    <view class="channel-steps-title">分步提交指引:</view>
+    <view class="channel-step" wx:for="{{item.steps}}" wx:for-item="s" wx:for-index="si" wx:key="si">第 {{si + 1}} 步:{{s}}</view>
+    <view class="muted">时限:{{item.sla}}</view>
+    <button class="go-btn" data-go="{{item.go}}" data-name="{{item.name}}" bindtap="goChannel">➡️ 去这个渠道举报</button>
+  </view>
+  <view class="sec-title" style="margin-top:30rpx;">取证要点</view>
+  <view wx:for="{{evidence}}" wx:key="*this">{{index + 1}}. {{item}}</view>
+</view>
+
+<view class="footer-tip muted">文书措辞客观、自动引用法规条款;举报请如实陈述。</view>

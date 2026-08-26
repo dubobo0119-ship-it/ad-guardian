@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/kb/kb",
+    "pages/records/records",
+    "pages/feedback/feedback"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#2f6fed",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "广告卫士",
+    "backgroundColor": "#f5f6fa"
+  },
+  "tabBar": {
+    "color": "#8a8f99",
+    "selectedColor": "#2f6fed",
+    "backgroundColor": "#ffffff",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "一键举报" },
+      { "pagePath": "pages/kb/kb", "text": "知识库" },
+      { "pagePath": "pages/records/records", "text": "举报记录" },
+      { "pagePath": "pages/feedback/feedback", "text": "意见反馈" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,13 @@
+<!-- 意见反馈页 -->
+<view class="card">
+  <view class="sec-title">你的意见很重要</view>
+  <view class="muted">使用中遇到任何问题、有想加的功能、或识别不准的地方,都告诉我们。</view>
+  <textarea class="fb-input" placeholder="写下你的意见或建议..." value="{{content}}" bindinput="onContent" maxlength="500"></textarea>
+  <view class="field-label">联系方式(选填,方便我们回访)</view>
+  <input class="fb-contact" placeholder="微信号 / 手机号 / 邮箱" value="{{contact}}" bindinput="onContact"></input>
+  <button class="btn-primary" bindtap="submit" loading="{{submitting}}">提交反馈</button>
+</view>
+
+<view class="card">
+  <view class="muted">所有反馈仅用于改进本工具,不会用于任何其他用途。</view>
+</view>

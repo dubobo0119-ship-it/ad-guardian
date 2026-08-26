@@ -1,0 +1,19 @@
+<!-- 举报记录页 -->
+<view class="card" wx:if="{{!records.length}}">
+  <view class="empty">还没有举报记录</view>
+  <view class="muted">完成一次举报并提交后,点「我提交了,记一笔」,这里会帮你盯着进度,15 个工作日后提醒你去查结果。</view>
+</view>
+
+<view class="card" wx:for="{{records}}" wx:key="id">
+  <view class="rec-top">
+    <view class="strong">{{item.appName}}</view>
+    <view class="badge {{item.due ? 'badge-due' : 'badge-wait'}}">
+      {{item.due ? '📢 可以去查结果了' : '处理中 · 已过 ' + item.days + ' 个工作日'}}
+    </view>
+  </view>
+  <view>违规类型:{{item.vName}}</view>
+  <view class="muted">提交于 {{item.submitTime}}</view>
+  <view class="muted">举报渠道:{{item.channelText}}</view>
+  <view wx:if="{{item.due}}" class="due-tip">已超 15 个工作日,回原渠道凭受理编号查询处理结果;如无回音可换渠道再举报。</view>
+  <view class="del" data-id="{{item.id}}" bindtap="removeRecord">删除记录</view>
+</view>

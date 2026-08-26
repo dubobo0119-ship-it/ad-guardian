@@ -1,0 +1,12 @@
+# 构建镜像时排除的文件(减小体积、避免隐私数据进镜像)
+wxapp/
+examples/
+data/
+__pycache__/
+*.pyc
+test_*.py
+demo.py
+*.md
+.git/
+app.py
+requirements.txt
