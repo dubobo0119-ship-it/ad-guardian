@@ -12,8 +12,9 @@ data/
 .env
 *.key
 
-# 小程序工具缓存
+# 小程序工具缓存与个人本地配置(不进公开仓库)
 wxapp/node_modules/
+wxapp/project.private.config.json
 
 # 系统文件
 .DS_Store
