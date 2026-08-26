@@ -12,6 +12,9 @@ data/
 .env
 *.key
 
+# 临时部署包(上传云托管用,不进仓库)
+*.zip
+
 # 小程序工具缓存与个人本地配置(不进公开仓库)
 wxapp/node_modules/
 wxapp/project.private.config.json
